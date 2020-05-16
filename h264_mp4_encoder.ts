@@ -14,7 +14,7 @@ const promise = new Promise(resolve => {
 //                 Louis DeScioli <https://github.com/lourd>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.2
-declare namespace FS {
+export declare namespace FS {
     interface Lookup {
         path: string;
         node: FSNode;
