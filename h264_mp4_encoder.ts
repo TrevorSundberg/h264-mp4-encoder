@@ -1,3 +1,11 @@
+const Module = require("./embuild/h264_mp4_encoder.js");
+const hme = Module();
+const promise = new Promise(resolve => {
+    hme.then(() => {
+        resolve();
+    })
+})
+
 declare class H264MP4Encoder {
     outputFilename: number;
     width: number;
@@ -16,17 +24,13 @@ declare class H264MP4Encoder {
     addFrameRgba(buffer: ArrayBuffer |  Uint8Array | Uint8ClampedArray | Int8Array | string): void;
     finalize(): void;
     delete(): void;
+
+    FS: typeof FS;
 }
 
-interface FS {
-    readFile(path: string): Uint8Array;
-    unlink(path: string): void;
+export const createH264MP4Encoder = async() : Promise<H264MP4Encoder> => {
+    await promise;
+    const encoder: H264MP4Encoder = new hme.H264MP4Encoder();
+    encoder.FS = hme.FS;
+    return encoder;
 }
-
-interface H264MP4Interface {
-    then(onLoaded: (hme: H264MP4Interface) => void);
-    H264MP4Encoder: typeof H264MP4Encoder;
-    FS: FS;
-}
-
-export default function(): H264MP4Interface;

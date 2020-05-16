@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <script src="build_emscripten/h264_mp4_encoder.js"></script>
+  <script src="./embuild/dist/h264-mp4-encoder.web.js"></script>
   <canvas width="800" height="600" style="border:1px solid black;"></canvas>
   <script>
     const canvas = document.getElementsByTagName("canvas")[0];
@@ -23,9 +23,7 @@
       anchor.click();
     };
 
-    H264MP4Module().then(async (hme) => {
-      const encoder = new hme.H264MP4Encoder();
-      encoder.onDataCallback = (data) => { };
+    HME.createH264MP4Encoder().then(async encoder => {
       encoder.width = canvas.width;
       encoder.height = canvas.height;
       encoder.initialize();
@@ -38,7 +36,7 @@
       }
 
       encoder.finalize();
-      const file = hme.FS.readFile("output.mp4");
+      const file = encoder.FS.readFile("output.mp4");
       download(URL.createObjectURL(new Blob([file], { type: "video/mp4" })))
     })
   </script>

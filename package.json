@@ -2,9 +2,10 @@
   "name": "h264-mp4-encoder",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./embuild/dist/h264_mp4_encoder.node.js",
+  "types": "./h264_mp4_encoder.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,16 @@
   "bugs": {
     "url": "https://github.com/TrevorSundberg/h264_mp4_encoder/issues"
   },
-  "homepage": "https://github.com/TrevorSundberg/h264_mp4_encoder#readme"
+  "homepage": "https://github.com/TrevorSundberg/h264_mp4_encoder#readme",
+  "dependencies": {
+    "@types/emscripten": "^1.39.4",
+    "@types/node": "^14.0.1"
+  },
+  "devDependencies": {
+    "declaration-bundler-webpack-plugin": "^1.0.3",
+    "ts-loader": "^7.0.4",
+    "typescript": "^3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
 }
