@@ -228,6 +228,9 @@ void h264_mp4_encoder::add_frame_yuv(const std::string &yuv_buffer)
             &coded_data,
             &sizeof_coded_data) == H264E_STATUS_SUCCESS);
 
+  // TODO(trevor): This is wrong but is just for testing (doesn't include mp4)
+  on_data_callback(on_data_callback_userdata, coded_data, sizeof_coded_data);
+
   if (debug)
   {
     printf("frame=%d, bytes=%d\n", private_->frame, sizeof_coded_data);
