@@ -1,3 +1,4 @@
+// Copyright (C) Trevor Sundberg, MIT License (see LICENSE.md)
 #include <stdint.h>
 #pragma once
 

@@ -1,9 +1,12 @@
-#include <stdio.h>
-#include <string.h>
+// Copyright (C) Trevor Sundberg, MIT License (see LICENSE.md)
 
 // Reference:
 // https://github.com/Thinkerfans/lib-mp4v2/blob/master/mp4v2/mp4record.c
 // https://github.com/lieff/minih264/blob/master/minih264e_test.c
+// https://stackoverflow.com/questions/9465815/rgb-to-yuv420-algorithm-efficiency
+
+#include <stdio.h>
+#include <string.h>
 
 #define H264E_MAX_THREADS 0
 #define MINIH264_IMPLEMENTATION
@@ -253,7 +256,6 @@ void h264_mp4_encoder::add_frame_rgba(const uint8_t *rgba, const uint32_t size)
     private_->rgba_to_yuv_buffer = (uint8_t *)malloc(yuv_size);
   }
 
-  // https://stackoverflow.com/questions/9465815/rgb-to-yuv420-algorithm-efficiency
   size_t image_size = options.width * options.height;
   size_t upos = image_size;
   size_t vpos = upos + upos / 4;
