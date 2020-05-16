@@ -1,0 +1,20 @@
+{
+  "name": "h264-mp4-encoder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrevorSundberg/h264_mp4_encoder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TrevorSundberg/h264_mp4_encoder/issues"
+  },
+  "homepage": "https://github.com/TrevorSundberg/h264_mp4_encoder#readme"
+}
