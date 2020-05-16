@@ -29,8 +29,8 @@ private:                                                            \
   type name = default_value;                                        \
                                                                     \
 public:                                                             \
-  type get_##name() const { return name; };                         \
-  void set_##name(type value)                                       \
+  const type &get_##name() const { return name; };                  \
+  void set_##name(const type &value)                                \
   {                                                                 \
     HME_CHECK(!private_, "Cannot set properties after initialize"); \
     name = value;                                                   \
