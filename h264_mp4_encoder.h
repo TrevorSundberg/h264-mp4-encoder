@@ -1,66 +1,89 @@
 // Copyright (C) Trevor Sundberg, MIT License (see LICENSE.md)
+#include <string>
 #include <stdint.h>
+#include <stdio.h>
 #pragma once
 
 class h264_mp4_encoder_private;
 
 typedef void (*h264_mp4_encoder_data_callback)(
-    void *user_data,
+    void *userdata,
     const uint8_t *data,
     const uint32_t size);
 
-class h264_mp4_encoder_options
+#define HME_CHECK(expr, message)                                       \
+  do                                                                   \
+  {                                                                    \
+    if (!(expr))                                                       \
+    {                                                                  \
+      printf("ERROR %s(%d): %s\n    EXPR: %s\n    FUNC: %s\n",         \
+             __FILE__, __LINE__, message, #expr, __PRETTY_FUNCTION__); \
+      abort();                                                         \
+    }                                                                  \
+  } while (false)
+
+#define HME_CHECK_INTERNAL(expr) HME_CHECK(expr, "Internal error")
+
+#define HME_PROPERTY(type, name, default_value)                     \
+private:                                                            \
+  type name = default_value;                                        \
+                                                                    \
+public:                                                             \
+  type get_##name() const { return name; };                         \
+  void set_##name(type value)                                       \
+  {                                                                 \
+    HME_CHECK(!private_, "Cannot set properties after initialize"); \
+    name = value;                                                   \
+  };
+
+class h264_mp4_encoder
 {
 public:
+  friend class h264_mp4_encoder_private;
+
   // Callback that is called every time we have data to write (required).
   h264_mp4_encoder_data_callback on_data_callback = nullptr;
 
   // Arbitrary user data to be passed to on_data_callback.
   void *on_data_callback_userdata = nullptr;
 
-  uint32_t width = 0;
+  HME_PROPERTY(uint32_t, width, 0);
 
-  uint32_t height = 0;
+  HME_PROPERTY(uint32_t, height, 0);
 
-  uint32_t frame_rate = 30;
+  HME_PROPERTY(uint32_t, frame_rate, 30);
 
   // Set the bitrate in kbps relative to the frame_rate. Overwrites quantization_parameter.
-  uint32_t kbps = 0;
+  HME_PROPERTY(uint32_t, kbps, 0);
 
   // Speed where 0 means best quality [0..10].
-  uint32_t speed = 0;
+  HME_PROPERTY(uint32_t, speed, 0);
 
   // Higher means better compression, and lower means better quality [10..51].
-  uint32_t quantization_parameter = 33;
+  HME_PROPERTY(uint32_t, quantization_parameter, 33);
 
   // Key frame period.
-  uint32_t group_of_pictures = 20;
+  HME_PROPERTY(uint32_t, group_of_pictures, 20);
 
   // Use temporal noise supression.
-  bool temporal_denoise = false;
+  HME_PROPERTY(bool, temporal_denoise, false);
 
   // Each NAL unit will be approximately capped at this size (0 means unlimited).
-  uint32_t desired_nalu_bytes = 0;
+  HME_PROPERTY(uint32_t, desired_nalu_bytes, 0);
 
   // Prints extra debug information.
-  bool debug = false;
-};
+  HME_PROPERTY(bool, debug, false);
 
-class h264_mp4_encoder
-{
-public:
-  h264_mp4_encoder(const h264_mp4_encoder_options &options);
+  void initialize();
 
-  ~h264_mp4_encoder();
+  void add_frame_yuv(const std::string &yuv_buffer);
 
-  void add_frame_yuv(uint8_t *yuv, const uint32_t size);
-
-  void add_frame_rgba(const uint8_t *rgba, const uint32_t size);
+  void add_frame_rgba(const std::string &rgba_buffer);
 
   void finalize();
 
-  const h264_mp4_encoder_options &options;
+  ~h264_mp4_encoder();
 
 private:
-  h264_mp4_encoder_private *const private_;
+  h264_mp4_encoder_private *private_ = nullptr;
 };

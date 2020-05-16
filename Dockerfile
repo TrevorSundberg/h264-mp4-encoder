@@ -37,7 +37,7 @@ ENV EMCC_SKIP_SANITY_CHECK=1
 RUN mkdir -p /tmp/emcc && \
     cd /tmp/emcc && \
     printf "#include <iostream>\nint main(){ std::cout << 0; return *new int; }" > build.cpp && \
-    emcc -s DISABLE_EXCEPTION_CATCHING=0 build.cpp && \
+    emcc --bind -s DISABLE_EXCEPTION_CATCHING=0 build.cpp && \
     rm -rf /tmp/emcc
 
 COPY . .

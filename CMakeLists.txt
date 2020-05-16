@@ -132,6 +132,7 @@ if(EMSCRIPTEN)
         -O2\
         --closure 1\
         -g0\
+        --bind\
     ")
 
     add_executable(h264_mp4_encoder

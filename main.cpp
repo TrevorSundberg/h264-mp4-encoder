@@ -63,7 +63,7 @@ static void gen_chessboard_rot_rgba(unsigned char *p, int w, int h, int frm)
 }
 
 static void on_data_callback(
-    void *user_data,
+    void *userdata,
     const uint8_t *data,
     const uint32_t size)
 {
@@ -73,39 +73,38 @@ static void on_data_callback(
 int main(int argc, char *argv[])
 {
   printf("Starting encoding\n");
+  h264_mp4_encoder encoder;
+  encoder.on_data_callback = &on_data_callback;
+  encoder.set_width(1024);
+  encoder.set_height(768);
+  encoder.set_frame_rate(25);
+  encoder.set_debug(false);
+
+  int frame_size = 0;
+  bool use_rgba = true;
+
+  if (use_rgba) {
+    frame_size = encoder.get_width() * encoder.get_height() * 4;
+  } else {
+    frame_size = encoder.get_width() * encoder.get_height() * 3 / 2;
+  }
+
+  std::string buffer;
+  buffer.resize(frame_size);
+
+  encoder.initialize();
+
+  for (int i = 0; i < 100; ++i)
   {
-    h264_mp4_encoder_options options;
-    options.on_data_callback = &on_data_callback;
-    options.width = 1024;
-    options.height = 768;
-    options.frame_rate = 25;
-    options.debug = false;
-
-    h264_mp4_encoder encoder(options);
-
-    int frame_size = 0;
-    bool use_rgba = true;
-    uint8_t *buffer = nullptr;
-
     if (use_rgba) {
-      frame_size = options.width * options.height * 4;
-      buffer = (uint8_t *)malloc(frame_size);
+      gen_chessboard_rot_rgba((uint8_t*)buffer.data(), encoder.get_width(), encoder.get_height(), i);
+      encoder.add_frame_rgba(buffer);
     } else {
-      frame_size = options.width * options.height * 3 / 2;
-      uint8_t *buffer = (uint8_t *)malloc(frame_size);
-    }
-
-    for (int i = 0; i < 100; ++i)
-    {
-      if (use_rgba) {
-        gen_chessboard_rot_rgba(buffer, options.width, options.height, i);
-        encoder.add_frame_rgba(buffer, frame_size);
-      } else {
-        gen_chessboard_rot_yuv(buffer, options.width, options.height, i);
-        encoder.add_frame_yuv(buffer, frame_size);
-      }
+      gen_chessboard_rot_yuv((uint8_t*)buffer.data(), encoder.get_width(), encoder.get_height(), i);
+      encoder.add_frame_yuv(buffer);
     }
   }
+  encoder.finalize();
   printf("Done encoding\n");
   return 0;
 }
