@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define H264E_MAX_THREADS 0
 #define MINIH264_IMPLEMENTATION
