@@ -33,6 +33,13 @@ ENV EMSDK_NODE="$EMSDK_NODE_BIN/node"
 ENV EMCC_WASM_BACKEND=1
 ENV EMCC_SKIP_SANITY_CHECK=1
 
+# Compile a program to force emcc caching
+RUN mkdir -p /tmp/emcc && \
+    cd /tmp/emcc && \
+    printf "#include <iostream>\nint main(){ std::cout << 0; return *new int; }" > build.cpp && \
+    emcc -s DISABLE_EXCEPTION_CATCHING=0 build.cpp && \
+    rm -rf /tmp/emcc
+
 COPY . .
 
 RUN mkdir embuild
