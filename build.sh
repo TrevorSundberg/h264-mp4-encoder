@@ -1,2 +1,5 @@
 docker build -t h264_mp4_encoder .
-#docker run --rm h264_mp4_encoder cp ...
+rm -rf build_emscripten
+docker run --name h264_mp4_encoder_temp h264_mp4_encoder /bin/true
+docker cp h264_mp4_encoder_temp:/home/user/embuild build_emscripten
+docker rm h264_mp4_encoder_temp

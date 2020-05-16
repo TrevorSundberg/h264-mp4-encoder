@@ -6,11 +6,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fpermissive")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lpthread")
 
-if(EMSCRIPTEN)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -O2 --closure 1 --llvm-lto 3 -g0")
-endif()
-
-add_library(h264_mp4_encoder
+add_library(h264_mp4_encoder_library
     h264_mp4_encoder.cpp
 
     libmp4v2/src/3gp.cpp
@@ -112,7 +108,7 @@ add_library(h264_mp4_encoder
     libmp4v2/libplatform/time/time.cpp
 )
 
-target_include_directories(h264_mp4_encoder PRIVATE
+target_include_directories(h264_mp4_encoder_library PRIVATE
     "generated"
     "libmp4v2/include"
     "libmp4v2"
@@ -123,4 +119,24 @@ add_executable(h264_mp4_encoder_test
     main.cpp
 )
 
-target_link_libraries(h264_mp4_encoder_test h264_mp4_encoder)
+target_link_libraries(h264_mp4_encoder_test h264_mp4_encoder_library)
+
+if(EMSCRIPTEN)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -Wno-invalid-source-encoding -Wno-tautological-pointer-compare -O2 --closure 1 --llvm-lto 3 -g0")
+
+    add_executable(h264_mp4_encoder
+        emscripten.cpp
+    )
+    target_link_libraries(h264_mp4_encoder h264_mp4_encoder_library)
+    set_target_properties(
+        h264_mp4_encoder
+        PROPERTIES
+            SUFFIX ".js"
+    )
+
+    set_target_properties(
+        h264_mp4_encoder_test
+        PROPERTIES
+            SUFFIX ".html"
+    )
+endif()

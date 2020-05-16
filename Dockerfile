@@ -39,4 +39,4 @@ RUN mkdir embuild
 WORKDIR /home/user/embuild
 
 RUN cmake -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake ..
-RUN cmake --build .
+RUN cmake --build --parallel .
