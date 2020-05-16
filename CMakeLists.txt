@@ -128,6 +128,9 @@ if(EMSCRIPTEN)
         -s ALLOW_MEMORY_GROWTH=1\
         -s WASM=1\
         -s EXTRA_EXPORTED_RUNTIME_METHODS=['FS']\
+        -s SINGLE_FILE=1\
+        -s MODULARIZE=1\
+        -s EXPORT_NAME=H264MP4Module\
         -Wno-invalid-source-encoding\
         -Wno-tautological-pointer-compare\
         -O2\
@@ -144,11 +147,5 @@ if(EMSCRIPTEN)
         h264_mp4_encoder
         PROPERTIES
             SUFFIX ".js"
-    )
-
-    set_target_properties(
-        h264_mp4_encoder_test
-        PROPERTIES
-            SUFFIX ".html"
     )
 endif()
