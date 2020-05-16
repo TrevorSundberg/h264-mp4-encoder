@@ -122,7 +122,17 @@ add_executable(h264_mp4_encoder_test
 target_link_libraries(h264_mp4_encoder_test h264_mp4_encoder_library)
 
 if(EMSCRIPTEN)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -Wno-invalid-source-encoding -Wno-tautological-pointer-compare -O2 --closure 1 --llvm-lto 3 -g0")
+    set(CMAKE_CXX_FLAGS "\
+        ${CMAKE_CXX_FLAGS}\
+        -s DISABLE_EXCEPTION_CATCHING=0\
+        -s ALLOW_MEMORY_GROWTH=1\
+        -s WASM=1\
+        -Wno-invalid-source-encoding\
+        -Wno-tautological-pointer-compare\
+        -O2\
+        --closure 1\
+        -g0\
+    ")
 
     add_executable(h264_mp4_encoder
         emscripten.cpp
