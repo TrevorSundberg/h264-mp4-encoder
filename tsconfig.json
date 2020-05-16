@@ -10,11 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
-    "types": [
-      "emscripten",
-      "node"
-    ]
+    "baseUrl": "./"
   },
   "exclude": [
     "build",
