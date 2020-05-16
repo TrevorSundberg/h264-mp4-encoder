@@ -192,8 +192,8 @@ export interface H264MP4Encoder {
     addFrameYuv(buffer: ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | string): void;
 
     /**
-     * Add a frame in YUV format (expected size: width * height * 3 / 2).
-     * Alpha is ignored but we keep it for convenience of working with the HTML5 canvas.getImageData().
+     * Add a frame in RGBA format (expected size: width * height * 4).
+     * Alpha is ignored but is kept for convenience of working with the HTML5 canvas.getImageData().
      */
     addFrameRgba(buffer: ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | string): void;
 
