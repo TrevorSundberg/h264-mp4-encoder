@@ -1,6 +1,6 @@
 {
   "name": "h264-mp4-encoder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "./embuild/dist/h264_mp4_encoder.node.js",
   "types": "./h264_mp4_encoder.ts",
