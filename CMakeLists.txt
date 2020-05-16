@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
-project(encoder)
+project(h264_mp4_encoder)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fpermissive")
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fpermissive")
 set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lpthread")
 
-set(SOURCE_FILES
-    main.cpp
+add_library(h264_mp4_encoder
     h264_mp4_encoder.cpp
 
     libmp4v2/src/3gp.cpp
@@ -109,11 +108,15 @@ set(SOURCE_FILES
     libmp4v2/libplatform/time/time.cpp
 )
 
-add_executable(encoder ${SOURCE_FILES})
-
-target_include_directories(encoder PRIVATE
+target_include_directories(h264_mp4_encoder PRIVATE
     "generated"
     "libmp4v2/include"
     "libmp4v2"
     "minih264"
 )
+
+add_executable(h264_mp4_encoder_test
+    main.cpp
+)
+
+target_link_libraries(h264_mp4_encoder_test h264_mp4_encoder)
