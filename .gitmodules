@@ -3,4 +3,4 @@
 	url = https://github.com/TrevorSundberg/minih264.git
 [submodule "libmp4v2"]
 	path = libmp4v2
-	url = https://github.com/sergiomb2/libmp4v2.git
+	url = https://github.com/TrevorSundberg/libmp4v2.git
