@@ -4,7 +4,10 @@ HME.createH264MP4Encoder().then(encoder => {
     encoder.width = 100;
     encoder.height = 100;
     encoder.initialize();
-    console.log(encoder.frameRate);
+    // Add a single gray frame, the alpha is ignored.
+    encoder.addFrameRgba(new Uint8Array(encoder.width * encoder.height * 4).fill(128))
     encoder.finalize();
+    const uint8Array = encoder.FS.readFile("output.mp4");
+    console.log(uint8Array);
     encoder.delete();
 })
