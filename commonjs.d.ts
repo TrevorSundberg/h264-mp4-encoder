@@ -1,4 +1,4 @@
-class H264MP4Encoder {
+declare class H264MP4Encoder {
     outputFilename: number;
     width: number;
     height: number;
