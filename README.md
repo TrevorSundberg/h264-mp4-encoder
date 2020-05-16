@@ -23,6 +23,7 @@ import * as HME from "h264-mp4-encoder";
 Example:
 ```js
 HME.createH264MP4Encoder().then(encoder => {
+    // Must be a multiple of 2.
     encoder.width = 100;
     encoder.height = 100;
     encoder.initialize();
