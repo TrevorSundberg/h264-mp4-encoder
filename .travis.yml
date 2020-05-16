@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- '11'
+script:
+- ./build.sh
+deploy:
+  provider: npm
+  skip_cleanup: true
+  email: Trevor.Sundberg@gmail.com
+  api_key: $NPM_API_KEY
+  on:
+    tags: true
+    branch: master
