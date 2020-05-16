@@ -86,6 +86,9 @@ void h264_mp4_encoder_private::nalu_callback(
     case NALU::P:
       printf("P");
       break;
+    default:
+      CHECK(false && "Unknown frame type");
+      break;
     }
 
     printf(", hex=");
@@ -138,6 +141,7 @@ void h264_mp4_encoder_private::nalu_callback(
     break;
   default:
     CHECK(false && "Unknown frame type");
+    break;
   }
 }
 
