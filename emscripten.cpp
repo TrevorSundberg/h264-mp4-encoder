@@ -9,7 +9,7 @@ EMSCRIPTEN_BINDINGS(h264_mp4_encoder_binding)
   class_<h264_mp4_encoder>("H264MP4Encoder")
       .constructor<>()
 
-      .property("output_filename", &h264_mp4_encoder::get_output_filename, &h264_mp4_encoder::set_output_filename)
+      .property("outputFilename", &h264_mp4_encoder::get_output_filename, &h264_mp4_encoder::set_output_filename)
       .property("width", &h264_mp4_encoder::get_width, &h264_mp4_encoder::set_width)
       .property("height", &h264_mp4_encoder::get_height, &h264_mp4_encoder::set_height)
       .property("frameRate", &h264_mp4_encoder::get_frame_rate, &h264_mp4_encoder::set_frame_rate)
