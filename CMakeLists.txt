@@ -112,9 +112,8 @@ set(SOURCE_FILES
 add_executable(encoder ${SOURCE_FILES})
 
 target_include_directories(encoder PRIVATE
+    "generated"
     "libmp4v2/include"
     "libmp4v2"
-    "libmp4v2/build"
-    "libmp4v2/build/include"
     "minih264"
 )
