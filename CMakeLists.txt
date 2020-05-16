@@ -127,6 +127,7 @@ if(EMSCRIPTEN)
         -s DISABLE_EXCEPTION_CATCHING=0\
         -s ALLOW_MEMORY_GROWTH=1\
         -s WASM=1\
+        -s EXTRA_EXPORTED_RUNTIME_METHODS=['FS']\
         -Wno-invalid-source-encoding\
         -Wno-tautological-pointer-compare\
         -O2\

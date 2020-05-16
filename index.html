@@ -30,6 +30,8 @@
                 }
 
                 encoder.finalize();
+                const file = Module.FS.readFile("output.mp4");
+                console.log(file);
             }
         };
     </script>

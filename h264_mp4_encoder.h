@@ -41,11 +41,7 @@ class h264_mp4_encoder
 public:
   friend class h264_mp4_encoder_private;
 
-  // Callback that is called every time we have data to write (required).
-  h264_mp4_encoder_data_callback on_data_callback = nullptr;
-
-  // Arbitrary user data to be passed to on_data_callback.
-  void *on_data_callback_userdata = nullptr;
+  HME_PROPERTY(std::string, output_filename, "output.mp4");
 
   HME_PROPERTY(uint32_t, width, 0);
 

@@ -4,34 +4,12 @@
 
 using namespace emscripten;
 
-static void emscripten_on_data_callback(
-    void *userdata,
-    const uint8_t *data,
-    const uint32_t size) {
-    emscripten::val& callback = *(emscripten::val*)userdata;
-    callback(emscripten::val(emscripten::typed_memory_view(size, data)));
-}
-
-static emscripten::val get_on_data_callback(const h264_mp4_encoder& instance) {
-  if (instance.on_data_callback_userdata) {
-    return *(emscripten::val*)instance.on_data_callback_userdata;
-  } else {
-    return emscripten::val::null();
-  }
-}
-
-static void set_on_data_callback(h264_mp4_encoder& instance, emscripten::val value) {
-  instance.on_data_callback_userdata = new emscripten::val(value);
-  instance.on_data_callback = &emscripten_on_data_callback;
-}
-
 EMSCRIPTEN_BINDINGS(h264_mp4_encoder_binding)
 {
   class_<h264_mp4_encoder>("H264MP4Encoder")
       .constructor<>()
 
-      .property("onDataCallback", &get_on_data_callback, &set_on_data_callback)
-
+      .property("output_filename", &h264_mp4_encoder::get_output_filename, &h264_mp4_encoder::set_output_filename)
       .property("width", &h264_mp4_encoder::get_width, &h264_mp4_encoder::set_width)
       .property("height", &h264_mp4_encoder::get_height, &h264_mp4_encoder::set_height)
       .property("frameRate", &h264_mp4_encoder::get_frame_rate, &h264_mp4_encoder::set_frame_rate)

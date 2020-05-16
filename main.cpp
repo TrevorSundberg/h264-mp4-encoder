@@ -62,19 +62,10 @@ static void gen_chessboard_rot_rgba(unsigned char *p, int w, int h, int frm)
   }
 }
 
-static void on_data_callback(
-    void *userdata,
-    const uint8_t *data,
-    const uint32_t size)
-{
-  printf("GOT DATA: %d\n", (int)size);
-}
-
 int main(int argc, char *argv[])
 {
   printf("Starting encoding\n");
   h264_mp4_encoder encoder;
-  encoder.on_data_callback = &on_data_callback;
   encoder.set_width(1024);
   encoder.set_height(768);
   encoder.set_frame_rate(25);

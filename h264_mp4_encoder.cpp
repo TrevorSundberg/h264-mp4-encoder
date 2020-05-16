@@ -142,7 +142,7 @@ void h264_mp4_encoder::initialize()
   HME_CHECK_INTERNAL(private_);
   private_->encoder = this;
 
-  HME_CHECK_INTERNAL(on_data_callback != nullptr);
+  HME_CHECK_INTERNAL(!output_filename.empty());
   HME_CHECK_INTERNAL(width > 0);
   HME_CHECK_INTERNAL(height > 0);
   HME_CHECK_INTERNAL(frame_rate > 0);
@@ -227,9 +227,6 @@ void h264_mp4_encoder::add_frame_yuv(const std::string &yuv_buffer)
             &yuv_planes,
             &coded_data,
             &sizeof_coded_data) == H264E_STATUS_SUCCESS);
-
-  // TODO(trevor): This is wrong but is just for testing (doesn't include mp4)
-  on_data_callback(on_data_callback_userdata, coded_data, sizeof_coded_data);
 
   if (debug)
   {
