@@ -72,37 +72,40 @@ static void on_data_callback(
 
 int main(int argc, char *argv[])
 {
-  h264_mp4_encoder_options options;
-  options.on_data_callback = &on_data_callback;
-  options.width = 1024;
-  options.height = 768;
-  options.frame_rate = 25;
-  options.debug = false;
-
-  h264_mp4_encoder encoder(options);
-
-  int frame_size = 0;
-  bool use_rgba = true;
-  uint8_t *buffer = nullptr;
-
-  if (use_rgba) {
-    frame_size = options.width * options.height * 4;
-    buffer = (uint8_t *)malloc(frame_size);
-  } else {
-    frame_size = options.width * options.height * 3 / 2;
-    uint8_t *buffer = (uint8_t *)malloc(frame_size);
-  }
-
-  for (int i = 0; i < 100; ++i)
+  printf("Starting encoding\n");
   {
+    h264_mp4_encoder_options options;
+    options.on_data_callback = &on_data_callback;
+    options.width = 1024;
+    options.height = 768;
+    options.frame_rate = 25;
+    options.debug = false;
+
+    h264_mp4_encoder encoder(options);
+
+    int frame_size = 0;
+    bool use_rgba = true;
+    uint8_t *buffer = nullptr;
+
     if (use_rgba) {
-      gen_chessboard_rot_rgba(buffer, options.width, options.height, i);
-      encoder.add_frame_rgba(buffer, frame_size);
+      frame_size = options.width * options.height * 4;
+      buffer = (uint8_t *)malloc(frame_size);
     } else {
-      gen_chessboard_rot_yuv(buffer, options.width, options.height, i);
-      encoder.add_frame_yuv(buffer, frame_size);
+      frame_size = options.width * options.height * 3 / 2;
+      uint8_t *buffer = (uint8_t *)malloc(frame_size);
+    }
+
+    for (int i = 0; i < 100; ++i)
+    {
+      if (use_rgba) {
+        gen_chessboard_rot_rgba(buffer, options.width, options.height, i);
+        encoder.add_frame_rgba(buffer, frame_size);
+      } else {
+        gen_chessboard_rot_yuv(buffer, options.width, options.height, i);
+        encoder.add_frame_yuv(buffer, frame_size);
+      }
     }
   }
-
+  printf("Done encoding\n");
   return 0;
 }
