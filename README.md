@@ -1,0 +1,4 @@
+# Building
+```bash
+./build.sh
+```
