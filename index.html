@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <canvas width="800" height="600" style="border:1px solid black;">
+    <script>
+        const canvas = document.getElementsByTagName("canvas")[0];
+        const ctx = canvas.getContext("2d");
+        const drawFrame = (interpolant) => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(0, 0, canvas.width * interpolant, canvas.height * interpolant);
+        };
+
+        var Module = {
+            onRuntimeInitialized: async() => {
+                const encoder = new Module.H264MP4Encoder();
+                encoder.onDataCallback = (data) => {};
+                encoder.width = canvas.width;
+                encoder.height = canvas.height;
+                encoder.initialize();
+
+                const frames = 100;
+                for (let i = 0; i < frames; ++i) {
+                    drawFrame(i / frames);
+                    encoder.addFrameRgba(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
+                    await new Promise(resolve => window.requestAnimationFrame(resolve));
+                }
+
+                encoder.finalize();
+            }
+        };
+    </script>
+    <script src="build_emscripten/h264_mp4_encoder.js"></script>
+    <script>
+    </script>
+  </body>
+</html>
