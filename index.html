@@ -13,6 +13,12 @@
             ctx.fillStyle = "#FF0000";
             ctx.fillRect(0, 0, canvas.width * interpolant, canvas.height * interpolant);
         };
+        const download = (url, filename) => {
+          const anchor = document.createElement("a");
+          anchor.href = url;
+          anchor.download = filename || "download";
+          anchor.click();
+        };
 
         var Module = {
             onRuntimeInitialized: async() => {
@@ -31,7 +37,7 @@
 
                 encoder.finalize();
                 const file = Module.FS.readFile("output.mp4");
-                console.log(file);
+                download(URL.createObjectURL(new Blob([file], {type: "video/mp4"})))
             }
         };
     </script>
