@@ -171,7 +171,9 @@ void h264_mp4_encoder::initialize()
 
   int sizeof_persist = 0;
   int sizeof_scratch = 0;
-  HME_CHECK_INTERNAL(H264E_sizeof(&create_param, &sizeof_persist, &sizeof_scratch) == H264E_STATUS_SUCCESS);
+  int sizeof_result = H264E_sizeof(&create_param, &sizeof_persist, &sizeof_scratch);
+  HME_CHECK(sizeof_result != H264E_STATUS_SIZE_NOT_MULTIPLE_2, "Size must be a multiple of 2");
+  HME_CHECK_INTERNAL(sizeof_result == H264E_STATUS_SUCCESS);
   if (debug)
   {
     printf("sizeof_persist=%d, sizeof_scratch=%d\n", sizeof_persist, sizeof_scratch);
