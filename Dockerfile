@@ -15,7 +15,7 @@ USER user
 WORKDIR /home/user
 RUN git clone https://github.com/juj/emsdk.git
 
-ENV EMSCRIPTEN_VERSION sdk-tag-1.39.7-64bit-upstream
+ENV EMSCRIPTEN_VERSION sdk-tag-1.39.15-64bit-upstream
 
 RUN cd emsdk && \
     ./emsdk update-tags && \
