@@ -49,7 +49,7 @@ public:
 
   HME_PROPERTY(uint32_t, frame_rate, 30);
 
-  // Set the bitrate in kbps relative to the frame_rate. Overwrites quantization_parameter.
+  // The bitrate in kbps relative to the frame_rate. Overwrites quantization_parameter.
   HME_PROPERTY(uint32_t, kbps, 0);
 
   // Speed where 0 means best quality [0..10].

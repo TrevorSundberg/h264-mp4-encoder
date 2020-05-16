@@ -20,9 +20,9 @@ export declare namespace FS {
         node: FSNode;
     }
 
-    interface FSStream {}
-    interface FSNode {}
-    interface ErrnoError {}
+    interface FSStream { }
+    interface FSNode { }
+    interface ErrnoError { }
 
     let ignorePermissions: boolean;
     let trackingDelegate: any;
@@ -149,28 +149,70 @@ export declare namespace FS {
 }
 
 export interface H264MP4Encoder {
+    /**
+     * Name of the file that we output.
+     * After `encoder.finalize()` use `encoder.FS.readFile(encoder.outputFilename)` after `finalize`.
+     */
     outputFilename: number;
+
+    /** Width of the input frames and output video. Must be a multiple of 2. */
     width: number;
+
+    /** Height of the input frames and output video. Must be a multiple of 2. */
     height: number;
+
+    /** Frame rate of the output video. */
     frameRate: number;
+
+    /** The bitrate in kbps relative to the frame_rate. Overwrites quantization_parameter. */
     kbps: number;
+
+    /** Speed where 0 means best quality and 10 means fastest speed [0..10]. */
     speed: number;
+
+    /** Higher means better compression, and lower means better quality [10..51]. */
     quantizationParameter: number;
+
+    /** Key frame period. */
     groupOfPictures: number;
+
+    /** Use temporal noise supression. */
     temporalDenoise: number;
+
+    /** Each NAL unit will be approximately capped at this size (0 means unlimited). */
     desiredNaluBytes: number;
+
+    /** Prints extra debug information. */
     debug: number;
 
+    /** Initialize the encoder. After calling this, all parameters above will be readonly. */
     initialize(): void;
-    addFrameYuv(buffer: ArrayBuffer |  Uint8Array | Uint8ClampedArray | Int8Array | string): void;
-    addFrameRgba(buffer: ArrayBuffer |  Uint8Array | Uint8ClampedArray | Int8Array | string): void;
+
+    /** Add a frame in YUV format (expected size: width * height * 3 / 2). */
+    addFrameYuv(buffer: ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | string): void;
+
+    /**
+     * Add a frame in YUV format (expected size: width * height * 3 / 2).
+     * Alpha is ignored but we keep it for convenience of working with the HTML5 canvas.getImageData().
+     */
+    addFrameRgba(buffer: ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | string): void;
+
+    /** Finish outputting the video to the `outputFilename`. */
     finalize(): void;
+
+    /** Delete this object and free all resources. Should not be used again. */
     delete(): void;
 
+    /**
+     * A reference to Emscripten's virtual file system.
+     * The output files will be written here under the provided `outputFilename`.
+     * This file system is *shared* between all H264MP4Encoders.
+     */
     FS: typeof FS;
 }
 
-export const createH264MP4Encoder = async() : Promise<H264MP4Encoder> => {
+/** Construct the H264MP4Encoder. Waits for the WASM to complete loading before returning. */
+export const createH264MP4Encoder = async (): Promise<H264MP4Encoder> => {
     await promise;
     const encoder: H264MP4Encoder = new hme.H264MP4Encoder();
     encoder.FS = hme.FS;
