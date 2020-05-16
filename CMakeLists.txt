@@ -2,9 +2,10 @@ cmake_minimum_required(VERSION 3.13)
 project(h264_mp4_encoder)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fpermissive")
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fpermissive")
-set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lpthread")
+set(CMAKE_C_FLAGS  ${CMAKE_C_FLAGS} -fpermissive")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lpthread")
+
 
 add_library(h264_mp4_encoder
     h264_mp4_encoder.cpp
