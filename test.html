@@ -39,6 +39,7 @@
       encoder.finalize();
       const file = encoder.FS.readFile("output.mp4");
       download(URL.createObjectURL(new Blob([file], { type: "video/mp4" })))
+      encoder.delete();
     })
   </script>
   <script>

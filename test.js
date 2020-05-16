@@ -4,5 +4,7 @@ HME.createH264MP4Encoder().then(encoder => {
     encoder.width = 100;
     encoder.height = 100;
     encoder.initialize();
-    console.log(encoder);
+    console.log(encoder.frameRate);
+    encoder.finalize();
+    encoder.delete();
 })
