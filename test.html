@@ -37,7 +37,7 @@
       }
 
       encoder.finalize();
-      const uint8Array = encoder.FS.readFile("output.mp4");
+      const uint8Array = encoder.FS.readFile(encoder.outputFilename);
       download(URL.createObjectURL(new Blob([uint8Array], { type: "video/mp4" })))
       encoder.delete();
     })
