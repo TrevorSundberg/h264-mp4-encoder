@@ -5,10 +5,18 @@ script:
 - ./build.sh
 - npm test
 deploy:
-  provider: npm
+- provider: npm
   skip_cleanup: true
   email: Trevor.Sundberg@gmail.com
   api_key: $NPM_API_KEY
+  on:
+    tags: true
+    branch: master
+- provider: pages
+  local_dir: ./embuild/pages
+  github_token: $GITHUB_TOKEN
+  skip_cleanup: true
+  keep_history: false
   on:
     tags: true
     branch: master

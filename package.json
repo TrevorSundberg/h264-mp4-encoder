@@ -5,8 +5,9 @@
   "main": "./embuild/dist/h264-mp4-encoder.node.js",
   "types": "./embuild/dist/h264-mp4-encoder.d.ts",
   "scripts": {
-    "build": "webpack --mode production && npm run typings",
+    "build": "webpack --mode production && npm run typings && npm run pages",
     "typings": "tsc --declaration --emitDeclarationOnly --project ./tsconfig.json --declarationDir ./embuild/dist && rm -rf ./embuild/dist/embuild",
+    "pages": "mkdir -p ./embuild/pages/embuild/dist && cp ./embuild/dist/h264-mp4-encoder.web.js ./embuild/pages/embuild/dist && cp ./test.html ./embuild/pages/index.html",
     "test": "node test.js"
   },
   "repository": {
