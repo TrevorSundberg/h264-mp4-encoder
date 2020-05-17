@@ -6,7 +6,8 @@
   "types": "./embuild/dist/h264-mp4-encoder.d.ts",
   "scripts": {
     "build": "webpack --mode production && npm run typings",
-    "typings": "tsc --declaration --emitDeclarationOnly --project ./tsconfig.json --declarationDir ./embuild/dist"
+    "typings": "tsc --declaration --emitDeclarationOnly --project ./tsconfig.json --declarationDir ./embuild/dist",
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
