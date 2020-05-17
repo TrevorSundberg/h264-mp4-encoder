@@ -35,7 +35,7 @@ HME.createH264MP4Encoder().then(encoder => {
     // Add a single gray frame, the alpha is ignored.
     encoder.addFrameRgba(new Uint8Array(encoder.width * encoder.height * 4).fill(128))
     // For canvas:
-    // encoder.addFrameRgba(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
+    // encoder.addFrameRgba(ctx.getImageData(0, 0, encoder.width * encoder.height).data);
     encoder.finalize();
     const uint8Array = encoder.FS.readFile(encoder.outputFilename);
     console.log(uint8Array);
