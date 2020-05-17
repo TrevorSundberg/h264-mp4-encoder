@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "",
   "main": "./embuild/dist/h264_mp4_encoder.node.js",
+  "browser": "./embuild/dist/h264_mp4_encoder.node.js",
   "types": "./h264_mp4_encoder.ts",
   "scripts": {
     "build": "webpack --mode production"
