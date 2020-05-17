@@ -3,9 +3,10 @@
   "version": "1.0.5",
   "description": "",
   "main": "./embuild/dist/h264-mp4-encoder.node.js",
-  "types": "./h264-mp4-encoder.ts",
+  "types": "./embuild/dist/h264-mp4-encoder.d.ts",
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "webpack --mode production && npm run typings",
+    "typings": "tsc --declaration --emitDeclarationOnly --project ./tsconfig.json --declarationDir ./embuild/dist"
   },
   "repository": {
     "type": "git",

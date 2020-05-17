@@ -6,7 +6,6 @@
     "moduleResolution": "Node",
     "target": "ES6",
     "removeComments": false,
-    "declaration": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "esModuleInterop": true,
