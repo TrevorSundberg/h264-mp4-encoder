@@ -1,6 +1,8 @@
 # Introducing h264-mp4-encoder
 Encode directly to H264 and ouput as an MP4 in node or on the web with WebAssembly! Works with the HTML5 Canvas :)
 
+[See The Simple Demo](https://trevorsundberg.github.io/h264-mp4-encoder/)
+
 [![Build Status](https://travis-ci.org/TrevorSundberg/h264-mp4-encoder.svg?branch=master)](https://travis-ci.org/TrevorSundberg/h264-mp4-encoder)
 ```
 npm install h264-mp4-encoder
