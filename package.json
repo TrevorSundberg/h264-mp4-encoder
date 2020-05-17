@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TrevorSundberg/h264_mp4_encoder.git"
+    "url": "git+https://github.com/TrevorSundberg/h264-mp4-encoder.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TrevorSundberg/h264_mp4_encoder/issues"
+    "url": "https://github.com/TrevorSundberg/h264-mp4-encoder/issues"
   },
-  "homepage": "https://github.com/TrevorSundberg/h264_mp4_encoder#readme",
+  "homepage": "https://github.com/TrevorSundberg/h264-mp4-encoder#readme",
   "dependencies": {},
   "devDependencies": {
     "declaration-bundler-webpack-plugin": "^1.0.3",
