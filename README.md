@@ -126,7 +126,7 @@ interface H264MP4Encoder {
 }
 ```
 
-# How?
+# How does it work?
 This library brings together the public domain [minih264](https://github.com/lieff/minih264) H264 encoder, as well as the MPL 1.1 licenced [libmp4v2](https://github.com/sergiomb2/libmp4v2) to write the H264 NAL unit data into an MP4 file. Both of these are compiled in Emscripten within a Docker image and Webpacked to create easily importable modules. This repo uses submodules that are forks of those two libraries with changes for Emscripten (and to comply with the MPL 1.1 license).
 
 # Where is the WebAssembly?
