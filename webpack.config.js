@@ -3,7 +3,7 @@ const path = require("path");
 
 const createConfig = (target, libraryTarget) => ({
   devtool: "source-map",
-  entry: "./h264_mp4_encoder.ts",
+  entry: "./h264-mp4-encoder.ts",
   module: {
     rules: [
       {
