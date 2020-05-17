@@ -14,7 +14,8 @@
     const canvas = document.getElementsByTagName("canvas")[0];
     const ctx = canvas.getContext("2d");
     const drawFrame = (interpolant) => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0000FF";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#FF0000";
       ctx.fillRect(0, 0, canvas.width * interpolant, canvas.height * interpolant);
     };
