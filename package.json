@@ -20,7 +20,6 @@
   "homepage": "https://github.com/TrevorSundberg/h264-mp4-encoder#readme",
   "dependencies": {},
   "devDependencies": {
-    "declaration-bundler-webpack-plugin": "^1.0.3",
     "ts-loader": "^7.0.4",
     "typescript": "^3.9.2",
     "webpack": "^4.43.0",
