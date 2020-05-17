@@ -19,7 +19,12 @@ TypeScript:
 ```ts
 import * as HME from "h264-mp4-encoder";
 ```
-
+Dynamic Import / Webpack:
+```ts
+const HME = await import("h264-mp4-encoder");
+// To only import the type in TypeScript:
+import("h264-mp4-encoder").H264MP4Encoder;
+```
 Example:
 ```js
 HME.createH264MP4Encoder().then(encoder => {
@@ -41,6 +46,14 @@ HME.createH264MP4Encoder().then(encoder => {
 You can also use `await`:
 ```js
 const encoder = await HME.createH264MP4Encoder();
+```
+
+# Use with Webpack
+When using this library with Webpack to package onto a browser environment it will report an error because it cannot resolve "fs" which is used by Emscripten's node implementation. To fix this add this to your `webpack.config.js`:
+```json
+  "node": {
+    "fs": "empty"
+  },
 ```
 
 # API
