@@ -1,5 +1,5 @@
 // Copyright (C) Trevor Sundberg, MIT License (see LICENSE.md)
-#include "h264_mp4_encoder.h"
+#include "h264-mp4-encoder.h"
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -65,10 +65,10 @@ static void gen_chessboard_rot_rgba(unsigned char *p, int w, int h, int frm)
 int main(int argc, char *argv[])
 {
   printf("Starting encoding\n");
-  h264_mp4_encoder encoder;
+  H264MP4Encoder encoder;
   encoder.set_width(1024);
   encoder.set_height(768);
-  encoder.set_frame_rate(25);
+  encoder.set_frameRate(25);
   encoder.set_debug(false);
 
   int frame_size = 0;
@@ -89,10 +89,10 @@ int main(int argc, char *argv[])
   {
     if (use_rgba) {
       gen_chessboard_rot_rgba((uint8_t*)buffer.data(), encoder.get_width(), encoder.get_height(), i);
-      encoder.add_frame_rgba(buffer);
+      encoder.addFrameRgba(buffer);
     } else {
       gen_chessboard_rot_yuv((uint8_t*)buffer.data(), encoder.get_width(), encoder.get_height(), i);
-      encoder.add_frame_yuv(buffer);
+      encoder.addFrameYuv(buffer);
     }
   }
   encoder.finalize();

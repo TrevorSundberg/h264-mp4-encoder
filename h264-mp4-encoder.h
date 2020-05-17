@@ -4,9 +4,9 @@
 #include <stdio.h>
 #pragma once
 
-class h264_mp4_encoder_private;
+class H264MP4EncoderPrivate;
 
-typedef void (*h264_mp4_encoder_data_callback)(
+typedef void (*H264MP4Encoder_data_callback)(
     void *userdata,
     const uint8_t *data,
     const uint32_t size);
@@ -36,18 +36,18 @@ public:                                                             \
     name = value;                                                   \
   };
 
-class h264_mp4_encoder
+class H264MP4Encoder
 {
 public:
-  friend class h264_mp4_encoder_private;
+  friend class H264MP4EncoderPrivate;
 
-  HME_PROPERTY(std::string, output_filename, "output.mp4");
+  HME_PROPERTY(std::string, outputFilename, "output.mp4");
 
   HME_PROPERTY(uint32_t, width, 0);
 
   HME_PROPERTY(uint32_t, height, 0);
 
-  HME_PROPERTY(uint32_t, frame_rate, 30);
+  HME_PROPERTY(uint32_t, frameRate, 30);
 
   // The bitrate in kbps relative to the frame_rate. Overwrites quantization_parameter.
   HME_PROPERTY(uint32_t, kbps, 0);
@@ -56,30 +56,30 @@ public:
   HME_PROPERTY(uint32_t, speed, 0);
 
   // Higher means better compression, and lower means better quality [10..51].
-  HME_PROPERTY(uint32_t, quantization_parameter, 33);
+  HME_PROPERTY(uint32_t, quantizationParameter, 33);
 
   // Key frame period.
-  HME_PROPERTY(uint32_t, group_of_pictures, 20);
+  HME_PROPERTY(uint32_t, groupOfPictures, 20);
 
   // Use temporal noise supression.
-  HME_PROPERTY(bool, temporal_denoise, false);
+  HME_PROPERTY(bool, temporalDenoise, false);
 
   // Each NAL unit will be approximately capped at this size (0 means unlimited).
-  HME_PROPERTY(uint32_t, desired_nalu_bytes, 0);
+  HME_PROPERTY(uint32_t, desiredNaluBytes, 0);
 
   // Prints extra debug information.
   HME_PROPERTY(bool, debug, false);
 
   void initialize();
 
-  void add_frame_yuv(const std::string &yuv_buffer);
+  void addFrameYuv(const std::string &yuv_buffer);
 
-  void add_frame_rgba(const std::string &rgba_buffer);
+  void addFrameRgba(const std::string &rgba_buffer);
 
   void finalize();
 
-  ~h264_mp4_encoder();
+  ~H264MP4Encoder();
 
 private:
-  h264_mp4_encoder_private *private_ = nullptr;
+  H264MP4EncoderPrivate *private_ = nullptr;
 };

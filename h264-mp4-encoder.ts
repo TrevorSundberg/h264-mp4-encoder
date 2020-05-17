@@ -1,4 +1,4 @@
-import Module from "./embuild/h264_mp4_encoder.js";
+import Module from "./embuild/h264-mp4-encoder.js";
 const hme = (Module as any)();
 const promise = new Promise(resolve => {
     hme.then(() => {

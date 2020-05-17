@@ -13,7 +13,7 @@
 #include "minih264e.h"
 #include "mp4v2/mp4v2.h"
 
-#include "h264_mp4_encoder.h"
+#include "h264-mp4-encoder.h"
 
 #define INITIALIZE_MESSAGE "Function initialize has not been called"
 
@@ -30,10 +30,10 @@ enum class NALU
   INVALID = 0x00,
 };
 
-class h264_mp4_encoder_private
+class H264MP4EncoderPrivate
 {
 public:
-  h264_mp4_encoder *encoder = nullptr;
+  H264MP4Encoder *encoder = nullptr;
   MP4FileHandle mp4 = nullptr;
   MP4TrackId video_track = 0;
 
@@ -45,11 +45,11 @@ public:
   static void nalu_callback(const uint8_t *nalu_data, int sizeof_nalu_data, void *token);
 };
 
-void h264_mp4_encoder_private::nalu_callback(
+void H264MP4EncoderPrivate::nalu_callback(
     const uint8_t *nalu_data, int sizeof_nalu_data, void *token)
 {
-  h264_mp4_encoder_private *encoder_private = (h264_mp4_encoder_private *)token;
-  h264_mp4_encoder *encoder = encoder_private->encoder;
+  H264MP4EncoderPrivate *encoder_private = (H264MP4EncoderPrivate *)token;
+  H264MP4Encoder *encoder = encoder_private->encoder;
 
   uint8_t *data = const_cast<uint8_t *>(nalu_data - STARTCODE_4BYTES);
   const int size = sizeof_nalu_data + STARTCODE_4BYTES;
@@ -105,7 +105,7 @@ void h264_mp4_encoder_private::nalu_callback(
       encoder_private->video_track = MP4AddH264VideoTrack(
           encoder_private->mp4,
           TIMESCALE,
-          TIMESCALE / encoder->frame_rate,
+          TIMESCALE / encoder->frameRate,
           encoder->width,
           encoder->height,
           data[5], // sps[1] AVCProfileIndication
@@ -135,21 +135,21 @@ void h264_mp4_encoder_private::nalu_callback(
   }
 }
 
-void h264_mp4_encoder::initialize()
+void H264MP4Encoder::initialize()
 {
   HME_CHECK(!private_, "Cannot call initialize more than once without calling finalize");
-  private_ = new h264_mp4_encoder_private();
+  private_ = new H264MP4EncoderPrivate();
   HME_CHECK_INTERNAL(private_);
   private_->encoder = this;
 
-  HME_CHECK_INTERNAL(!output_filename.empty());
+  HME_CHECK_INTERNAL(!outputFilename.empty());
   HME_CHECK_INTERNAL(width > 0);
   HME_CHECK_INTERNAL(height > 0);
-  HME_CHECK_INTERNAL(frame_rate > 0);
-  HME_CHECK_INTERNAL(quantization_parameter >= 10 && quantization_parameter <= 51);
+  HME_CHECK_INTERNAL(frameRate > 0);
+  HME_CHECK_INTERNAL(quantizationParameter >= 10 && quantizationParameter <= 51);
   HME_CHECK_INTERNAL(speed <= 10);
 
-  private_->mp4 = MP4Create("output.mp4", 0);
+  private_->mp4 = MP4Create(outputFilename.c_str(), 0);
   HME_CHECK_INTERNAL(private_->mp4 != MP4_INVALID_FILE_HANDLE);
   MP4SetTimeScale(private_->mp4, TIMESCALE);
 
@@ -161,13 +161,13 @@ void h264_mp4_encoder::initialize()
   create_param.inter_layer_pred_flag = 1;
   create_param.inter_layer_pred_flag = 0;
 #endif
-  create_param.gop = group_of_pictures;
+  create_param.gop = groupOfPictures;
   create_param.height = height;
   create_param.width = width;
   create_param.fine_rate_control_flag = 0;
   create_param.const_input_flag = 1;
   create_param.vbv_size_bytes = 100000 / 8;
-  create_param.temporal_denoise_flag = temporal_denoise;
+  create_param.temporal_denoise_flag = temporalDenoise;
 
   int sizeof_persist = 0;
   int sizeof_scratch = 0;
@@ -185,11 +185,11 @@ void h264_mp4_encoder::initialize()
   HME_CHECK_INTERNAL(H264E_init(private_->enc, &create_param) == H264E_STATUS_SUCCESS);
 }
 
-void h264_mp4_encoder::add_frame_yuv(const std::string &yuv_buffer)
+void H264MP4Encoder::addFrameYuv(const std::string &yuv_buffer)
 {
   HME_CHECK(private_, INITIALIZE_MESSAGE);
   HME_CHECK(yuv_buffer.size() == width * height * 3 / 2 /*YUV*/,
-        "Incorrect buffer size for YUV (width * height * 3 / 2)");
+            "Incorrect buffer size for YUV (width * height * 3 / 2)");
   uint8_t *yuv = (uint8_t *)yuv_buffer.data();
 
   H264E_io_yuv_t yuv_planes;
@@ -204,31 +204,31 @@ void h264_mp4_encoder::add_frame_yuv(const std::string &yuv_buffer)
   memset(&run_param, 0, sizeof(run_param));
   run_param.frame_type = 0;
   run_param.encode_speed = speed;
-  run_param.desired_nalu_bytes = desired_nalu_bytes;
+  run_param.desired_nalu_bytes = desiredNaluBytes;
 
   if (kbps)
   {
-    run_param.desired_frame_bytes = kbps * 1000 / 8 / frame_rate;
+    run_param.desired_frame_bytes = kbps * 1000 / 8 / frameRate;
     run_param.qp_min = 10;
     run_param.qp_max = 50;
   }
   else
   {
-    run_param.qp_min = run_param.qp_max = quantization_parameter;
+    run_param.qp_min = run_param.qp_max = quantizationParameter;
   }
 
   run_param.nalu_callback_token = this->private_;
-  run_param.nalu_callback = &h264_mp4_encoder_private::nalu_callback;
+  run_param.nalu_callback = &H264MP4EncoderPrivate::nalu_callback;
 
   int sizeof_coded_data = 0;
   uint8_t *coded_data = nullptr;
   HME_CHECK_INTERNAL(H264E_encode(
-            private_->enc,
-            private_->scratch,
-            &run_param,
-            &yuv_planes,
-            &coded_data,
-            &sizeof_coded_data) == H264E_STATUS_SUCCESS);
+                         private_->enc,
+                         private_->scratch,
+                         &run_param,
+                         &yuv_planes,
+                         &coded_data,
+                         &sizeof_coded_data) == H264E_STATUS_SUCCESS);
 
   if (debug)
   {
@@ -237,11 +237,11 @@ void h264_mp4_encoder::add_frame_yuv(const std::string &yuv_buffer)
   ++private_->frame;
 }
 
-void h264_mp4_encoder::add_frame_rgba(const std::string &rgba_buffer)
+void H264MP4Encoder::addFrameRgba(const std::string &rgba_buffer)
 {
   HME_CHECK(private_, INITIALIZE_MESSAGE);
   HME_CHECK(rgba_buffer.size() == width * height * 4 /*RGBA*/,
-        "Incorrect buffer size for RGBA (width * height * 4)");
+            "Incorrect buffer size for RGBA (width * height * 4)");
   uint8_t *rgba = (uint8_t *)rgba_buffer.data();
 
   size_t yuv_size = width * height * 3 / 2;
@@ -289,10 +289,10 @@ void h264_mp4_encoder::add_frame_rgba(const std::string &rgba_buffer)
     }
   }
 
-  add_frame_yuv(private_->rgba_to_yuv_buffer);
+  addFrameYuv(private_->rgba_to_yuv_buffer);
 }
 
-void h264_mp4_encoder::finalize()
+void H264MP4Encoder::finalize()
 {
   HME_CHECK(private_, INITIALIZE_MESSAGE);
   MP4Close(private_->mp4, 0);
@@ -302,7 +302,7 @@ void h264_mp4_encoder::finalize()
   private_ = nullptr;
 }
 
-h264_mp4_encoder::~h264_mp4_encoder()
+H264MP4Encoder::~H264MP4Encoder()
 {
   HME_CHECK(private_ == nullptr, "Function finalize was not called before the encoder destructed");
 }

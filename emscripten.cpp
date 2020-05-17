@@ -1,28 +1,28 @@
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
-#include "h264_mp4_encoder.h"
+#include "h264-mp4-encoder.h"
 
 using namespace emscripten;
 
-EMSCRIPTEN_BINDINGS(h264_mp4_encoder_binding)
+EMSCRIPTEN_BINDINGS(H264MP4EncoderBinding)
 {
-  class_<h264_mp4_encoder>("H264MP4Encoder")
+  class_<H264MP4Encoder>("H264MP4Encoder")
       .constructor<>()
 
-      .property("outputFilename", &h264_mp4_encoder::get_output_filename, &h264_mp4_encoder::set_output_filename)
-      .property("width", &h264_mp4_encoder::get_width, &h264_mp4_encoder::set_width)
-      .property("height", &h264_mp4_encoder::get_height, &h264_mp4_encoder::set_height)
-      .property("frameRate", &h264_mp4_encoder::get_frame_rate, &h264_mp4_encoder::set_frame_rate)
-      .property("kbps", &h264_mp4_encoder::get_kbps, &h264_mp4_encoder::set_kbps)
-      .property("speed", &h264_mp4_encoder::get_speed, &h264_mp4_encoder::set_speed)
-      .property("quantizationParameter", &h264_mp4_encoder::get_quantization_parameter, &h264_mp4_encoder::set_quantization_parameter)
-      .property("groupOfPictures", &h264_mp4_encoder::get_group_of_pictures, &h264_mp4_encoder::set_group_of_pictures)
-      .property("temporalDenoise", &h264_mp4_encoder::get_temporal_denoise, &h264_mp4_encoder::set_temporal_denoise)
-      .property("desiredNaluBytes", &h264_mp4_encoder::get_desired_nalu_bytes, &h264_mp4_encoder::set_desired_nalu_bytes)
-      .property("debug", &h264_mp4_encoder::get_debug, &h264_mp4_encoder::set_debug)
+      .property("outputFilename", &H264MP4Encoder::get_outputFilename, &H264MP4Encoder::set_outputFilename)
+      .property("width", &H264MP4Encoder::get_width, &H264MP4Encoder::set_width)
+      .property("height", &H264MP4Encoder::get_height, &H264MP4Encoder::set_height)
+      .property("frameRate", &H264MP4Encoder::get_frameRate, &H264MP4Encoder::set_frameRate)
+      .property("kbps", &H264MP4Encoder::get_kbps, &H264MP4Encoder::set_kbps)
+      .property("speed", &H264MP4Encoder::get_speed, &H264MP4Encoder::set_speed)
+      .property("quantizationParameter", &H264MP4Encoder::get_quantizationParameter, &H264MP4Encoder::set_quantizationParameter)
+      .property("groupOfPictures", &H264MP4Encoder::get_groupOfPictures, &H264MP4Encoder::set_groupOfPictures)
+      .property("temporalDenoise", &H264MP4Encoder::get_temporalDenoise, &H264MP4Encoder::set_temporalDenoise)
+      .property("desiredNaluBytes", &H264MP4Encoder::get_desiredNaluBytes, &H264MP4Encoder::set_desiredNaluBytes)
+      .property("debug", &H264MP4Encoder::get_debug, &H264MP4Encoder::set_debug)
 
-      .function("initialize", &h264_mp4_encoder::initialize)
-      .function("addFrameYuv", &h264_mp4_encoder::add_frame_yuv)
-      .function("addFrameRgba", &h264_mp4_encoder::add_frame_rgba)
-      .function("finalize", &h264_mp4_encoder::finalize);
+      .function("initialize", &H264MP4Encoder::initialize)
+      .function("addFrameYuv", &H264MP4Encoder::addFrameYuv)
+      .function("addFrameRgba", &H264MP4Encoder::addFrameRgba)
+      .function("finalize", &H264MP4Encoder::finalize);
 }
