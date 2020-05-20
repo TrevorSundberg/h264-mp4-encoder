@@ -68,38 +68,69 @@ interface H264MP4Encoder {
     /**
      * Name of the file that we output.
      * After `encoder.finalize()` use `encoder.FS.readFile(encoder.outputFilename)` after `finalize`.
+     * @default "output.mp4"
      */
-    outputFilename: number;
+    outputFilename: string;
 
-    /** Width of the input frames and output video. Must be a multiple of 2. */
+    /**
+     * Width of the input frames and output video. Must be a multiple of 2. Required.
+     * @default 0
+     */
     width: number;
 
-    /** Height of the input frames and output video. Must be a multiple of 2. */
+    /**
+     * Height of the input frames and output video. Must be a multiple of 2. Required.
+     * @default 0
+     */
     height: number;
 
-    /** Frame rate of the output video. */
+    /**
+     * Frame rate of the output video.
+     * @default 30
+     */
     frameRate: number;
 
-    /** The bitrate in kbps relative to the frame_rate. Overwrites quantization_parameter. */
+    /**
+     * The bitrate in kbps relative to the frame_rate. Overwrites quantization_parameter if not 0.
+     * @default 0
+     */
     kbps: number;
 
-    /** Speed where 0 means best quality and 10 means fastest speed [0..10]. */
+    /**
+     * Speed where 0 means best quality and 10 means fastest speed [0..10].
+     * @default 0
+     */
     speed: number;
 
-    /** Higher means better compression, and lower means better quality [10..51]. */
+    /**
+     * Higher means better compression, and lower means better quality [10..51].
+     * @default 33
+     */
     quantizationParameter: number;
 
-    /** Key frame period. */
+    /**
+     * How often a keyframe occurs (key frame period, also known as GOP).
+     * @default 20
+     */
     groupOfPictures: number;
 
-    /** Use temporal noise supression. */
-    temporalDenoise: number;
+    /**
+     * Use temporal noise supression.
+     * @default false
+     */
+    temporalDenoise: boolean;
 
-    /** Each NAL unit will be approximately capped at this size (0 means unlimited). */
+    /**
+     * Each NAL unit will be approximately capped at this size (0 means unlimited).
+     * @default 0
+     */
     desiredNaluBytes: number;
 
-    /** Prints extra debug information. */
-    debug: number;
+    /**
+     * Prints extra debug information.
+     * @default false
+     */
+    debug: boolean;
 
     /** Initialize the encoder. After calling this, all parameters above will be readonly. */
     initialize(): void;
