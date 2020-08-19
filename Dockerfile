@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:19.10@sha256:bd5f4f235eb31768b2c5caf1988bbdc182d4fc3cb6ee4aca6c6d74613f256140
 
 USER root
 RUN apt-get update && apt-get install -qq -y \
@@ -8,8 +8,11 @@ RUN apt-get update && apt-get install -qq -y \
       emscripten \
       git \
       libtool-bin \
-      python2.7
+      python2.7 \
+      nodejs \
+      npm
 
+RUN npm install -g npm
 RUN useradd -u 1000 -ms /bin/bash user
 USER user
 WORKDIR /home/user
