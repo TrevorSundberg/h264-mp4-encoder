@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <script src="./embuild/dist/h264-mp4-encoder.web.js"></script>
+  <!--<script src="https://unpkg.com/h264-mp4-encoder/embuild/dist/h264-mp4-encoder.web.js"></script>-->
+  <canvas width="800" height="600" style="border:1px solid black;"></canvas><br>
+  <a href="https://github.com/TrevorSundberg/h264-mp4-encoder/blob/master/test.html">See The Source</a>
+  <script>
+    const canvas = document.getElementsByTagName("canvas")[0];
+    const ctx = canvas.getContext("2d");
+    const drawFrame = (interpolant) => {
+      ctx.fillStyle = "#0000FF";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#FF0000";
+      ctx.fillRect(0, 0, canvas.width * interpolant, canvas.height * interpolant);
+    };
+    const download = (url, filename) => {
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = filename || "download";
+      anchor.click();
+    };
+
+    HME.createH264MP4Encoder().then(async encoder => {
+      encoder.width = canvas.width;
+      encoder.height = canvas.height;
+      encoder.initialize();
+
+      const frames = 100;
+      for (let i = 0; i <= frames; ++i) {
+        drawFrame(i / frames);
+        encoder.addFrameRgba(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
+        await new Promise(resolve => window.requestAnimationFrame(resolve));
+      }
+
+      encoder.finalize();
+      const uint8Array = encoder.FS.readFile(encoder.outputFilename);
+      download(URL.createObjectURL(new Blob([uint8Array], { type: "video/mp4" })))
+      encoder.delete();
+    })
+  </script>
+  <script>
+  </script>
+</body>
+
+</html>
